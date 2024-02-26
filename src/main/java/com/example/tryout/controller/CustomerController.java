@@ -1,6 +1,8 @@
 package com.example.tryout.controller;
 
 import com.example.tryout.Enum.Gender;
+import com.example.tryout.dto.request.CustomerRequest;
+import com.example.tryout.dto.response.CustomerResponse;
 import com.example.tryout.model.Customer;
 import com.example.tryout.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +20,28 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+//    @PostMapping("/addCustomer")
+//    public Customer addCustomer(@RequestBody Customer customer){
+//        return customerService.addCustomer(customer);
+//    } //WITHOUT DTO
+
+
+    //with dto
     @PostMapping("/addCustomer")
-    public Customer addCustomer(@RequestBody Customer customer){
-        return customerService.addCustomer(customer);
+    public CustomerResponse addCustomer(@RequestBody CustomerRequest customerRequest){
+        return customerService.addCustomer(customerRequest);
     }
 
+//    @GetMapping("/getCustomer/id/{id}")
+//    public Customer getCustomer(@PathVariable("id") int customerId)
+//    {
+//        return customerService.getCustomer(customerId);
+//    } //without dto
+
+    //with dto
+
     @GetMapping("/getCustomer/id/{id}")
-    public Customer getCustomer(@PathVariable("id") int customerId)
+    public CustomerResponse getCustomer(@PathVariable("id") int customerId)
     {
         return customerService.getCustomer(customerId);
     }
@@ -47,8 +64,16 @@ public class CustomerController {
         return customerService.getCustomerByAge(age);
     }
 
+    //without dto
+//    @GetMapping("/get-by-gender-age")
+//    public List<Customer> getAllByGenderAndAge(@RequestParam("gender") Gender gender, @RequestParam("age") int age)
+//    {
+//        return customerService.getAllByGenderAndAge(gender,age);
+//    }
+
+    //with dto
     @GetMapping("/get-by-gender-age")
-    public List<Customer> getAllByGenderAndAge(@RequestParam("gender") Gender gender, @RequestParam("age") int age)
+    public List<CustomerResponse> getAllByGenderAndAge(@RequestParam("gender") Gender gender, @RequestParam("age") int age)
     {
         return customerService.getAllByGenderAndAge(gender,age);
     }
