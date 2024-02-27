@@ -102,4 +102,13 @@ public class CustomerService {
     public int getCountOfGender(String gender) {
         return customerRepository.getCountOfGender(gender);
     }
+
+    public void deleteCustomer(String email) {
+        Optional<Customer> optionalCustomer=customerRepository.findByEmailId(email);
+        if(optionalCustomer.isEmpty())
+        {
+            throw new CustomerNotFoundException("Customer doesn't exist");
+        }
+        customerRepository.delete(optionalCustomer.get());
+    }
 }

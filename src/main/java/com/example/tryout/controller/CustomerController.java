@@ -5,7 +5,10 @@ import com.example.tryout.dto.request.CustomerRequest;
 import com.example.tryout.dto.response.CustomerResponse;
 import com.example.tryout.model.Customer;
 import com.example.tryout.service.CustomerService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,9 +44,11 @@ public class CustomerController {
     //with dto
 
     @GetMapping("/getCustomer/id/{id}")
-    public CustomerResponse getCustomer(@PathVariable("id") int customerId)
+    public ResponseEntity getCustomer(@PathVariable("id") int customerId)
     {
-        return customerService.getCustomer(customerId);
+
+        CustomerResponse customerResponse= customerService.getCustomer(customerId);
+        return new ResponseEntity(customerResponse, HttpStatus.FOUND);
     }
 
     @GetMapping("/get-all")
@@ -96,4 +101,12 @@ public class CustomerController {
     {
         return customerService.getCountOfGender(gender);
     }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteCustomer(@RequestParam("email") String email)
+    {
+        customerService.deleteCustomer(email);
+        return new ResponseEntity<>("Customer deleted",HttpStatus.ACCEPTED);
+    }
+
 }
